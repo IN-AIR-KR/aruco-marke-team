@@ -14,7 +14,7 @@ objp = np.zeros((CHECKERBOARD[0] * CHECKERBOARD[1], 3), np.float32)
 objp[:, :2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2)
 
 # 저장된 이미지 목록 가져오기
-images = glob.glob('calib_images/*.jpg')
+images = glob.glob('images/*.jpg')
 
 for fname in images:
     img = cv2.imread(fname)

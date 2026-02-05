@@ -32,6 +32,7 @@ for fname in images:
         # 찾은 코너 그리기 (확인용)
         cv2.drawChessboardCorners(img, CHECKERBOARD, corners2, ret)
         cv2.imshow('Checking Corners', img)
+        # cv2.imwrite(f'output/{fname.split("/")[-1]}', img)
         cv2.waitKey(100)
 
 cv2.destroyAllWindows()

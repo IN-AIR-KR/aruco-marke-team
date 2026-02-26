@@ -3,8 +3,8 @@ import numpy as np
 import glob
 
 # 설정: 체커보드 내부 교차점 개수 (가로, 세로)
-CHECKERBOARD = (7, 7)
-criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+CHECKERBOARD = (5, 8)
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 29, 0.001)
 
 objpoints = []
 imgpoints = []
@@ -32,7 +32,7 @@ for fname in images:
         # 찾은 코너 그리기 (확인용)
         cv2.drawChessboardCorners(img, CHECKERBOARD, corners2, ret)
         cv2.imshow('Checking Corners', img)
-        # cv2.imwrite(f'output/{fname.split("/")[-1]}', img)
+        cv2.imwrite(f'output/{fname.split("/")[-1]}', img)
         cv2.waitKey(100)
 
 cv2.destroyAllWindows()

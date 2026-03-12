@@ -28,11 +28,6 @@ def live_aruco_detection(calibration_data):
     # 카메라 설정
     cap = cv2.VideoCapture(0)
 
-    # 카메라 해상도 설정
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-    cap.set(cv2.CAP_PROP_FPS, 30)
-
     # 카메라 초기화 대기
     if not cap.isOpened():
         print("❌ Error: Cannot open camera")

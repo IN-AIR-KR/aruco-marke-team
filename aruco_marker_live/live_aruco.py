@@ -26,7 +26,7 @@ def live_aruco_detection(calibration_data):
     marker_size = 0.07  # 예: 7cm = 0.07m
 
     # 카메라 설정
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     # 카메라 초기화 대기
     if not cap.isOpened():
@@ -36,7 +36,15 @@ def live_aruco_detection(calibration_data):
     print("✅ Camera opened successfully")
     time.sleep(1)
 
+    # FPS 및 latency 계산을 위한 변수
+    fps = 0
+    frame_count = 0
+    fps_start_time = time.time()
+
     while True:
+        # latency 측정 시작
+        loop_start_time = time.time()
+
         ret, frame = cap.read()
         if not ret:
             print("Failed to grab frame")
@@ -118,10 +126,36 @@ def live_aruco_detection(calibration_data):
                     x, y = int(point[0]), int(point[1])
                     cv2.circle(frame_undistorted, (x, y), 4, (0, 0, 255), -1)
 
-        # FPS 표시
+        # FPS 및 latency 계산
+        frame_count += 1
+        current_time = time.time()
+        elapsed_time = current_time - fps_start_time
+
+        # 매 초마다 FPS 업데이트
+        if elapsed_time >= 1.0:
+            fps = frame_count / elapsed_time
+            frame_count = 0
+            fps_start_time = current_time
+
+        # latency 계산 (milliseconds)
+        latency = (time.time() - loop_start_time) * 1000
+
+        # FPS와 latency 표시
+        cv2.putText(frame_undistorted,
+                    f"FPS: {fps:.1f}",
+                    (10, 30),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.7, (0, 255, 0), 2)
+
+        cv2.putText(frame_undistorted,
+                    f"Latency: {latency:.1f}ms",
+                    (10, 60),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.7, (0, 255, 0), 2)
+
         cv2.putText(frame_undistorted,
                     f"Press 'q' to quit",
-                    (10, 30),
+                    (10, 90),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.7, (0, 255, 0), 2)
 
